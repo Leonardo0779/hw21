@@ -1,21 +1,24 @@
 package com.project.springdemo;
+
 import org.springframework.stereotype.Service;
 import com.project.springdemo.Employee;
 import exeption.EmployeeAlreadyAddedException;
 import exeption.EmployeeNotFoundException;
 import exeption.EmployeeStorageIsFullException;
+
 @Service
+
 public class EmployeeService {
     public static final int COUNT_ID = 10;
     private final Employee[] employes = new Employee[COUNT_ID];
     private int indOfAdd = 0;
 
-    public Employee addWorker(String firstName, String lastName){
-        if (indOfAdd >= COUNT_ID){
+    public Employee addWorker(String firstName, String lastName) {
+        if (indOfAdd >= COUNT_ID) {
             throw new EmployeeStorageIsFullException();
         }
         Employee employe = new Employee(firstName, lastName);
-        if (findWorker(employe) >= 0){
+        if (findWorker(employe) >= 0) {
             throw new EmployeeAlreadyAddedException();
         }
         employes[indOfAdd] = employe;
@@ -23,7 +26,7 @@ public class EmployeeService {
         return employe;
     }
 
-    public Employee deletWork(String firstName, String lastName){
+    public Employee deletWork(String firstName, String lastName) {
         Employee delWorker = new Employee(firstName, lastName);
         int delId = findWorker(delWorker);
         for (int i = 0; i <= indOfAdd; i++) {
@@ -37,7 +40,7 @@ public class EmployeeService {
         }
 
         employes[delId] = null;
-        if (delId != employes.length - 1){
+        if (delId != employes.length - 1) {
             System.arraycopy(employes, delId + 1,
                     employes, delId, employes.length - delId);
         }
@@ -46,20 +49,20 @@ public class EmployeeService {
     }
 
 
-    public Employee findWorker(String firstName, String lastName){
+    public Employee findWorker(String firstName, String lastName) {
         Employee delWorker = new Employee(firstName, lastName);
         int delId = findWorker(delWorker);
-        if (delId < 0){
+        if (delId < 0) {
             throw new EmployeeNotFoundException();
         }
         return delWorker;
     }
 
-    private int findWorker(Employee delWorker){
+    private int findWorker(Employee delWorker) {
         int delId = -1;
         int minFindIndex = Math.min(indOfAdd, employes.length - 1);
-        for (int i = 0; i <= minFindIndex; i++){
-            if (employes[i] != null && employes[i].equals(delWorker)){
+        for (int i = 0; i <= minFindIndex; i++) {
+            if (employes[i] != null && employes[i].equals(delWorker)) {
                 delId = i;
             }
         }
